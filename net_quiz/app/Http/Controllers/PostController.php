@@ -10,10 +10,15 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    
+        public function index()
     {
-        //
+        $posts=Post::orderBy('created_at','desc')->get();
+        $user=auth()->user();
+        return view('post.index', compact('posts', 'user'));
     }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -38,6 +43,11 @@ class PostController extends Controller
         $post->title=$inputs['title'];
         $post->body=$inputs['body'];
         $post->user_id=auth()->user()->id;
+        if (request('image')){
+            $name = request()->file('image')->getClientOriginalName();
+            request()->file('image')->move('storage/images', $name);
+            $post->image = $name;
+        }
         $post->save();
         return redirect()->route('post.create')->with('message', '投稿を作成しました');
     }
