@@ -16,11 +16,20 @@
                     <div class="mt-4">
                         <h1 class="text-lg text-gray-700 font-semibold">
                             {{ $post->title }}
-                            <h1 class="text-lg text-gray-700 font-semibold hover:underline cursor-pointer">
-                            {{ $post->title }}
-                            <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-teal-700 float-right">編集</x-primary-button></a>
-                        </h1>
-                        <hr class="w-full">
+                            <div class="mt-4">
+                    <h1 class="text-lg text-gray-700 font-semibold">
+                        {{ $post->title }}
+                    </h1>
+                    <hr class="w-full">
+                </div>
+                <div class="flex justify-end mt-4">
+                    <a href="{{route('post.edit', $post)}}"><x-primary-button class="bg-teal-700 float-right">編集</x-primary-button></a>
+                    <form method="post" action="{{route('post.destroy', $post)}}">
+                    @csrf
+                    @method('delete')
+                        <x-primary-button class="bg-red-700 float-right ml-4" onClick="return confirm('本当に削除しますか？');">削除</x-primary-button>
+                    </form>
+                </div>
                         </h1>
                         <hr class="w-full">
                         <p class="mt-4 text-gray-600 py-4">{{$post->body}}</p>
