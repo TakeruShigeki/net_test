@@ -32,25 +32,6 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $inputs=$request->validate([
-            'title'=>'required|max:255',
-            'body'=>'required|max:1000',
-            'image'=>'image|max:1024'
-        ]);
-        $post=new Post();
-        $post->title=$inputs['title'];
-        $post->body=$inputs['body'];
-        $post->user_id=auth()->user()->id;
-        if (request('image')){
-            $name = request()->file('image')->getClientOriginalName();
-            request()->file('image')->move('storage/images', $name);
-            $post->image = $name;
-        }
-        $post->save();
-        return redirect()->route('post.create')->with('message', '投稿を作成しました');
-    }
 
 
     /**
@@ -78,12 +59,10 @@ class PostController extends Controller
     {
         $inputs=$request->validate([
             'title'=>'required|max:255',
-            'body'=>'required|max:1000',
-            'image'=>'image|max:1024'
         ]);
 
-        $post->title=$inputs['title'];
-        $post->body=$inputs['body'];
+        $quiz->title=$inputs['title'];
+        $quiz->body=$inputs['body'];
                 
         if(request('image')){
             $original=request()->file('image')->getClientOriginalName();
